@@ -1,0 +1,91 @@
+apiVersion: v1
+baseDomain: schmaustech.com
+metadata:
+  name: kni5
+networking:
+  machineCIDR: 192.168.0.0/24
+compute:
+- name: worker
+  replicas: 0
+controlPlane:
+  name: master
+  replicas: 3
+  platform:
+    baremetal: {}
+platform:
+  baremetal:
+    apiVIP: 192.168.0.199
+    ingressVIP: 192.168.0.197
+    dnsVIP: 192.168.0.198
+    hosts:
+      - name: master-0
+        role: master
+        bmc:
+          address: ipmi://192.168.0.11:6241
+          username: admin
+          password: password
+        bootMACAddress: 52:54:00:3d:04:ae
+        hardwareProfile: default
+      - name: master-1
+        role: master
+        bmc:
+          address: ipmi://192.168.0.11:6242
+          username: admin
+          password: password
+        bootMACAddress: 52:54:00:0f:91:f3
+        hardwareProfile: default
+      - name: master-2
+        role: master
+        bmc:
+          address: ipmi://192.168.0.11:6243
+          username: admin
+          password: password
+        bootMACAddress: 52:54:00:ee:d2:f2
+        hardwareProfile: default
+sshKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDP+5QkRCiuhsYItXj7DzLcOIs2RbCgpMzDtPlt/hfLnDkLGozYIFapMp+o4l+6ornbZ3L+hYE0T8SyvyYVWfm1XpPcVgUIW6qp7yfEyTSRhpGnoY74PD33FIf6BtU2HoFLWjQcE6OrQOF0wijI3fgL0jSzvAxvYoXU/h
+uMx/kI2jBcWEq5cADRfvpeYXhVEJLrIIOepoAZE1syaPT7jQEoLDfvxrDZPKObCOI2vzLiAQXI7gK1uc9YDb6IEA/4Ik4eV2R1+VCgKhgk5RUqn69+8a1o783g1tChKuLwA4K9lyEAbFBwlHMctfNOLeC1w+bYpDXH/3GydcYfq79/18dVd+xEUlzzC+2/qycWG36C1MxUZa2fXvSRW
+LnpkLcxtIes4MikFeIr3jkJlFUzITigzvFrKa2IKaJzQ53WsE++LVnKJfcFNLtWfdEOZMowG/KtgzSSac/iVEJRM2YTIJsQsqhhI4PTrqVlUy/NwcXOFfUF/NkF2deeUZ21Cdn+bKZDKtFu2x+ujyAWZKNq570YaFT3a4TrL6WmE9kdHnJOXYR61Tiq/1fU+y0fv1d0f1cYr4+mNRCG
+IZoQOgJraF7/YluLB23INkJgtbah/0t1xzSsQ59gzFhRlLkW9gQDekj2tOGJmZIuYCnTXGiqXHnri2yAPexgRiaFjoM3GCpsWw== bschmaus@bschmaus.remote.csb'
+imageContentSources:
+- mirrors:
+  - rhel8-ocp-auto.schmaustech.com:5000/ocp4/openshift4
+  source: registry.svc.ci.openshift.org/ocp/RELEASEVERSION
+- mirrors:
+  - rhel8-ocp-auto.schmaustech.com:5000/ocp4/openshift4
+  source: registry.svc.ci.openshift.org/ocp/release
+pullSecret: '{ "auths": { "rhel8-ocp-auto.schmaustech.com:5000": {"auth": "ZHVtbXk6ZHVtbXk=","email": "bschmaus@redhat.com"} } }'
+additionalTrustBundle: |
+  -----BEGIN CERTIFICATE-----
+  MIIF9zCCA9+gAwIBAgIUKoU5Ey5EuO17ydE6lMoWspjElCgwDQYJKoZIhvcNAQEL
+  BQAwgYoxCzAJBgNVBAYTAlVTMRIwEAYDVQQIDAlNaW5uZXNvdGExFjAUBgNVBAcM
+  DUJyb29rbHluIFBhcmsxEDAOBgNVBAoMB1JlZCBIYXQxFDASBgNVBAsMC0VuZ2lu
+  ZWVyaW5nMScwJQYDVQQDDB5yaGVsOC1vY3AtYXV0by5zY2htYXVzdGVjaC5jb20w
+  HhcNMTkxMTIwMTI1ODQzWhcNMjAxMTE5MTI1ODQzWjCBijELMAkGA1UEBhMCVVMx
+  EjAQBgNVBAgMCU1pbm5lc290YTEWMBQGA1UEBwwNQnJvb2tseW4gUGFyazEQMA4G
+  A1UECgwHUmVkIEhhdDEUMBIGA1UECwwLRW5naW5lZXJpbmcxJzAlBgNVBAMMHnJo
+  ZWw4LW9jcC1hdXRvLnNjaG1hdXN0ZWNoLmNvbTCCAiIwDQYJKoZIhvcNAQEBBQAD
+  ggIPADCCAgoCggIBALUYUFTvNV6pux6Kq6XCcqHmWvV6K8oautX1ubEEg5dqE3+2
+  6IY90eBLkSqNyPDRaguVU3dDlmCzkusZuYNmPHLseR4WGfWOpPEguMwytsmXqnRT
+  kvDuaUxH7ZtdI4oxOiLV9fjrZ3C8RWYhdlDYAouKxnoYf8+56LPF4ImiD/XffhuE
+  FzF4KatXfZ+tR0QAtva+w39M3ukio95zo4oRrfz8Nf+pM5/qRcE0ueGhxAcD/WFp
+  F8jAiqknJ3kyce9cmPydNi49NyzusxH9plZa+x8rZ3TBsZqbt9mZEfA1fmmhD/4j
+  +nYAOR/fOzZzwkUzp/XPtBV/mIBp1VshW3FT3SJpgia+FD8tc9mqV2OEgiDQI31S
+  j55pnQ4oVD9ldQJxk9EVK7BpSQdcEkdFlR6I1wdlGxznTo22bcy0krWIgcZsXMZb
+  T00PFknR+sotWnHTBA0ccK+fxHQzKMZFNExHaD0EnFP/0CoQbedCSmdfgU8xf5vk
+  NI43LxRnVEIQboAdE682nptIMGW7UHo99Eq3aAQGYV+L1sgY3WUcGsghOgneUF39
+  OUTM/A0LrZcjysZ91fbBIpj87HrJV6tym2U+EjFLsAzuooipp4WWBS2Uj37glZbI
+  cpQGNQ8pSPvyve/6WaJpn+fWeQfEcS2DI71+74RuNkTtY0eKqyxqYfVS6o+fAgMB
+  AAGjUzBRMB0GA1UdDgQWBBT7n8NdeLh5v9LApMkwTIvhWGVsnjAfBgNVHSMEGDAW
+  gBT7n8NdeLh5v9LApMkwTIvhWGVsnjAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3
+  DQEBCwUAA4ICAQBba2rKFOG0y1ThVEkHfQg9noJ0S2g9YAO8aqhxbRlmeCM2/Qsb
+  VgzmOWpvxfGVt1faK97V44+Sl1MaUn9PACk94mSqFjDzm8niNctRqxVON4X0ryYe
+  Fbt/ZOAnzxHw2qQhnMsVyt3bzBcyObN07pcTke6+qCAx6NrolC4cnrjdijQtkiSZ
+  sj5iBEa/qOqLKCcYQKIM2/+sK6aCBj6fLluy6gzS91Rpl46TXcYJk4jarxM0bm6d
+  NWuP8DAVcVX9JRnp3wob6wacQsugAHi4n1qVSUU/r/judlnj7TY5ive6Z5b8DwyD
+  rhMhvF89YuKxAlmePBKqykRhPB8n4TNWT6o18nXLIXrdlLz6ZML551ROMjlqKm73
+  Vq0amh25iCuM0EYBpftPC3RUnhs+wypFkUqBjsbiPFgcqXqG7mdETalpawNWU+4N
+  eH7LoepF0upMRZzql8traND0PCDchft1vNwx+feMMnBmsVB4yEWPZTjhN3QOWXhn
+  fJp5gnvG8AOimDzAFZ2PJdvveb5j+zXF489JelhZkYa4IqsnJkm3pPAJojXl6EiU
+  YUbuCjAgY6NDaYlEiUVgcowTacyta2gZmqasF+Kv8OCP3REGbuUgrzj0VGGUVH02
+  uRxK15wfKr+CPGQ2guDiolLqq3rHzzlko5ZfrrYYlycyeNWNhWsDsV8EuQ==
+  -----END CERTIFICATE-----
